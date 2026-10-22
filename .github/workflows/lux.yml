@@ -1,0 +1,39 @@
+---
+"on":
+  push:
+    paths-ignore:
+      - "**.md"
+  pull_request:
+    paths-ignore:
+      - "**.md"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: lumen-oss/gh-actions-lux@v1
+        with:
+          version: 0.47.0
+      - name: Build document
+        run: |
+          sudo apt-get -y update
+          sudo apt-get -y install libreadline-dev
+          lx --lua-version=5.3 build
+        env:
+          HISTORY_INCDIR: /usr/include
+          HISTORY_LIBDIR: /usr/lib/x86_64-linux-gnu
+          READLINE_INCDIR: /usr/include
+          READLINE_LIBDIR: /usr/lib/x86_64-linux-gnu
+      - uses: actions/upload-artifact@v5
+        if: "! startsWith(github.ref, 'refs/tags/')"
+        with:
+          name: artifact
+          path: |
+            src/.lux/5.3/*/etc/doc/*.pdf
+      - uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: |
+            src/.lux/5.3/*/etc/doc/*.pdf

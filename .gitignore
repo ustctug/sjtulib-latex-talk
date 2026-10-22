@@ -1,3 +1,6 @@
+*.lock
+.luarc.json
+
 *.pdf
 *.latexmain
 

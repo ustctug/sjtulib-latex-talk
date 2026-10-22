@@ -1,0 +1,29 @@
+package = "sjtulib-latex-talk"
+version = "2023"
+lua = ">=5.1"
+
+[description]
+summary = "如何使用 LaTeX 排版论文/幻灯片"
+maintainer = "Richard Chien"
+labels = ["latex"]
+license = "CC-BY-SA-4.0"
+homepage = "https://github.com/sjtug/sjtulib-latex-talk"
+
+[build]
+type = "command"
+build_command = "lualatex --interaction=nonstopmode latex-talk.tex"
+
+[build.install.conf]
+"../doc/latex-talk.pdf" = "latex-talk.pdf"
+
+[build_dependencies]
+lualatex = "~> 0.3"
+beamer = "~> 3"
+listingsutf8 = "~> 1"
+pgf = "~> 3"
+fontawesome5 = "~> 5"
+hologo = "~> 1"
+hyperxmp = "~> 5"
+ulem = "~> 2"
+caption = "~> 2023"
+booktabs = "~> 1"
